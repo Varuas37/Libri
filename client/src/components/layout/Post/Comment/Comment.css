@@ -6,7 +6,7 @@
   padding: 10px;
   width: 100%;
 }
-.row {
+.dispRow {
   display: flex;
   flex-direction: row;
   gap: 4px;
