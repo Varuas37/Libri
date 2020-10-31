@@ -1,0 +1,13 @@
+.product-thumb-img {
+  border-radius: 3px;
+}
+.carousel .thumb.selected,
+.carousel .thumb:hover {
+  border: 2px solid #e9ebee;
+  border-radius: 3px;
+}
+.carousel .thumb {
+  border: none;
+  height: 62.5px;
+  object-fit: contain;
+}

@@ -1,0 +1,87 @@
+.pop-over-modal {
+  font-family: "Lato", sans-serif;
+  position: fixed;
+  /* z-index: 102; Sit on top */
+  width: 100%;
+  max-width: 548px;
+  min-width: 440px;
+  height: fit-content;
+  background-color: #1c1e21;
+
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  /* CENTER AT THE MIDDLE */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.pop-over-modal-container {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  /* width: fit-content; */
+  padding: 15px;
+}
+.pop-over-modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  height: fit-content;
+  padding-bottom: 10px;
+  outline: none;
+}
+.pop-over-modal-close {
+  cursor: pointer;
+}
+.pop-over-modal-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.cancelbtn {
+  cursor: pointer;
+  background-color: none;
+  color: #4794ff;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 15px;
+}
+.deletebtn {
+  cursor: pointer;
+  background: #4794ff;
+  width: fit-content;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 1400px) {
+  /* .Mymodal-wrapper {
+    width: 100%;
+
+    text-align: center;
+  }
+  .Mymodal-box {
+    height: fit-content;
+    width: 100%;
+  }
+  .pop-over-modal {
+    width: 90%;
+    min-width: 200px;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .pop-over-modal-container {
+    padding: 15%;
+    text-align: left;
+  } */
+}

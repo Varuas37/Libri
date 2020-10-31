@@ -1,0 +1,123 @@
+.mb-productStore-header {
+  display: none;
+}
+.product-content {
+  grid-column: 2/4;
+  margin-bottom: 20px;
+}
+.store-product-category {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  width: 100%;
+  border-top: 1px solid #393a3b;
+}
+.first {
+  border: none;
+}
+.store-product-category a {
+  color: #255aa3;
+}
+.product-wrapper {
+  width: 100%;
+  /* background-color: green; */
+  height: fit-content;
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 20px;
+  padding-bottom: 20px;
+}
+.product-item {
+  /* background-color: #242526; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  align-content: center;
+}
+.product-img {
+  border-radius: 12px;
+  background-color: #242526;
+}
+.product-img-i {
+  min-height: 157px;
+  max-height: 157px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.product-price::before {
+  content: "$";
+}
+.product-title {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+
+  /* overflow: hidden; */
+}
+.event-title {
+  font-size: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+.event-location {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+.product-seller-name {
+  color: #b1b4b7;
+  font-size: small;
+}
+
+@media (max-width: 1300px) {
+  .product-content {
+    grid-column: 1/4;
+  }
+  .mb-productStore-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: fit-content;
+    padding: 20px;
+    width: 80%;
+  }
+  .productStore-header-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* background-color: red; */
+    height: 40px;
+    gap: 5px;
+  }
+  .s-h-user,
+  .s-h-sell,
+  .s-h-categories {
+    background-color: #3a3b3c;
+    align-content: center;
+    /* margin: auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,116 @@
+.create-post-container-sm {
+  background-color: #232626;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+  /* justify-content: space-between; */
+  height: 3.5em;
+  width: 100%;
+}
+.create-post-userImg-sm {
+  text-align: center;
+  padding: 5px;
+}
+.post-content-sm {
+  background-color: #303031;
+  width: 100%;
+  padding: 6px;
+  height: 2em;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  color: #e3e6ea;
+}
+.post-content-sm:hover {
+  background-color: #4e4f50;
+  color: white;
+}
+/* CREATE POST MODAL */
+.create-post-container {
+  background-color: #242526;
+  width: 500px;
+  height: fit-content;
+  justify-content: space-around;
+  margin: 5%;
+  padding: 10px;
+  border-radius: 5px;
+}
+.create-post-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  /* border-bottom-style: solid;
+    border-bottom-width: 0.01vw;
+    border-bottom-color: #e3e6ea; */
+}
+.create-post-user-info {
+  padding: 10px;
+  display: flex;
+}
+.post-user-name {
+  width: fit-content;
+  font-size: 15px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.create-post-title {
+  width: 100%;
+}
+.create-post-title {
+  text-align: center;
+}
+.post-cancel-icon {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.post-content {
+  background-color: #242526;
+  width: 96%;
+  margin-top: 10px;
+  border: none;
+  text-align: justify;
+  outline: none;
+  border: none;
+  height: 80%;
+  color: #e3e6ea;
+  font-size: medium;
+  max-height: 215px;
+  min-height: 215px;
+  resize: none;
+}
+.post-btn {
+  width: 95%;
+  justify-content: center;
+  margin-left: 2.5%;
+  background-color: #505151;
+  outline: none;
+  border: none;
+  color: #e3e6ea;
+  padding: 5px;
+  border-radius: 5px;
+  overflow-y: hidden;
+}
+.post-btn:hover {
+  background-color: #1598f6;
+}
+
+::-webkit-scrollbar {
+  background-color: #232626;
+  width: 7px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #232626;
+  -webkit-border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: auto;
+  background-color: #666;
+  border: thin solid #4d5050;
+  -webkit-border-radius: 5px;
+}

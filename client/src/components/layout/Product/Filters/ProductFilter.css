@@ -1,0 +1,22 @@
+.category-filter_wrapper {
+  background-color: #232626;
+  width: 100%;
+  height: fit-content;
+  padding: 10px;
+  border: 1px solid #393a3b;
+  border-radius: 13px;
+}
+.category-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 5px;
+}
+.c-item {
+  background-color: #3a3b3c;
+  padding: 8px;
+  height: fit-content;
+  border-radius: 5px;
+  font-size: medium;
+  cursor: pointer;
+}
