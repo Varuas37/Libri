@@ -130,9 +130,9 @@ const Register = ({ registerUser, isAuthenticated }) => {
         <button type="submit" className=" authbtn btn btn-primary btn-block ">
           Register
         </button>
-        <p className="auth-text text-center">
+        <p className="auth-text text-center" >
           Have an account?
-          <Link to="/login"> Login</Link>
+          <Link to="/login" style={{ color: "#1ea1f1" }}> Login</Link>
         </p>
       </form>
     </div>

@@ -5,9 +5,12 @@ const config = require("config");
 const bcrypt = require("bcryptjs");
 const auth = require("../../../middleware/auth");
 const User = require("../../../models/User/User");
-
+const crypto = require('crypto');
 const { check, validationResult } = require("express-validator");
-
+const { json } = require("body-parser");
+const email = process.env.EMAIL
+const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD
+const nodemailer = require("nodemailer")
 //@route POST api/auth
 //@desc Auth route
 //@access Public
@@ -79,5 +82,50 @@ router.post(
     }
   }
 );
+
+router.post('/reset-password',(req,res) =>{
+  crypto.randomBytes(32,(err,buffer)=>{
+    if(err){
+      console.log(err)
+    }
+    var transporter = nodemailer.createTransport({
+      host: 'mail.privateemail.com',
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: email, // your domain email address
+        pass: emailPassword // your password
+      }
+    });
+
+const token = buffer.toString("hex")
+User.findOne({email:req.body.email})
+.then(user=>{
+  if(!user){
+    return res.status(422).json({error:"User not found"})
+  }
+  user.resetToken = token,
+  user.expireToken = Date.now()+ 3600000
+  user.save().then((result)=>{
+
+
+    transporter.sendMail(
+     {
+      to: user.email,
+      from: "support@libri.fun",
+      subject:"Password Reset",
+      html:`
+        <p>Please click on this  <a href ="http://localhost:3000/reset/${token}">link </a>to reset your password</p>
+    `
+     }
+    )
+    res.json({message:"Please check your email to reset your password"})
+  })
+})
+  })
+
+})
+
+
 
 module.exports = router;

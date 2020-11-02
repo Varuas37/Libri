@@ -42,6 +42,7 @@ import ProductDetails from "./components/pages/Product/DetailListing/ProductDeta
 import Courses from "./components/pages/Courses/Courses";
 import OtherProfile from "./components/pages/Profile/OtherProfile";
 import CommingSoon from "./components/pages/UnderDevelopment/CommingSoon";
+import ResetPassword from "./components/pages/auth/ResetPassword";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -100,6 +101,7 @@ const App = () => {
 
             <Route exact path="/courses" component={CommingSoon} />
             <Route exact path="/store/you/selling" component={CommingSoon} />
+            <Route exact path="/reset-password" component={ResetPassword} />
 
 
           </Switch>
