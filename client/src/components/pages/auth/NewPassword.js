@@ -6,13 +6,13 @@ import Alert from "../../layout/Alert";
 import PropTypes from "prop-types";
 
 // Importing Actions
-import { login } from "../../../stores/action/auth";
+import { newPassword } from "../../../stores/action/auth";
 
-const NewPassword = ({ login, isAuthenticated }) => {
+const NewPassword = ({ newPassword, isAuthenticated }) => {
   const { register, handleSubmit, errors,watch } = useForm();
   const onSubmit = (data) => {
     const {password } = data;
-    // login(email, password);
+    newPassword(password,token);
   };
   const {token} =useParams();
 console.log(token);
@@ -85,11 +85,11 @@ console.log(token);
   );
 };
 NewPassword.propTypes = {
-  login: PropTypes.func.isRequired,
+  newPassword: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { login })(NewPassword);
+export default connect(mapStateToProps, { newPassword })(NewPassword);

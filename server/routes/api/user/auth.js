@@ -135,9 +135,9 @@ User.findOne({email:req.body.email})
   })
 
 })
-router.post('/reset-password',
+router.post('/newpassword',
 [
-  check("password", "Please include a valid Password").not().exists(),
+  check("password", "Please include a valid Password").exists(),
  
 ],
 (req,res) =>{
