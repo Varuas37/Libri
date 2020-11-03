@@ -6,13 +6,13 @@ import Alert from "../../layout/Alert";
 import PropTypes from "prop-types";
 
 // Importing Actions
-import { login } from "../../../stores/action/auth";
+import { resetpassword } from "../../../stores/action/auth";
 
-const Login = ({ login, isAuthenticated }) => {
+const  ResetPassword = ({ resetpassword, isAuthenticated }) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
-    const { email, password } = data;
-    login(email, password);
+    const { email} = data;
+    resetpassword(email);
   };
   if (isAuthenticated) {
     return <Redirect to="/Home" />;
@@ -26,7 +26,7 @@ const Login = ({ login, isAuthenticated }) => {
         noValidate
       >
         <Link style={{ textDecoration: "none" }} to="/">
-          <h1 className="auth-title"> Libri</h1>
+          <h1 className="auth-title"> Libri </h1>
         </Link>
         <div className="form-group">
           <input
@@ -47,49 +47,30 @@ const Login = ({ login, isAuthenticated }) => {
             <p className="err-msg">Email is required</p>
           )}
         </div>
-        <div className="form-group">
-          <input
-            type="password"
-            name="password"
-            className="form-control form-control-lg"
-            placeholder="Password"
-            ref={register({ required: true, minLength: 6 })}
-          />
-          {errors.password && errors.password.type === "required" && (
-            <p className="err-msg">Password is required</p>
-          )}
-          {errors.password && errors.password.type === "minLength" && (
-            <p className="err-msg">Minimum of 6 characters required</p>
-          )}
-        </div>
+       
         <br />
         <button type="submit" className=" authbtn btn btn-primary btn-block ">
-          Login
+       Reset Password
         </button>
-        <p className="auth-text text-center">
-          <Link to="/reset-password" style={{ color: "#1ea1f1" }}>
-            {" "}
-            Forgot Password
-          </Link>
-        </p>
+   
 
         <p className="auth-text text-center">
           Don't have an account?
           <Link to="/register" style={{ color: "#1ea1f1" }}>
             {" "}
-            Sign up
+           Sign up
           </Link>
         </p>
       </form>
     </div>
   );
 };
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
+ResetPassword.propTypes = {
+  resetpassword: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { resetpassword })(ResetPassword);

@@ -5,7 +5,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-
+const { json } = require("body-parser");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const Confirmationemail = process.env.EMAIL;
+const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD
 const User = require("../../../models/User/User");
 
 //@route POST api/users/register
@@ -64,20 +68,74 @@ router.post(
           id: user.id,
         },
       };
-      jwt.sign(
-        payload,
-        config.get("jwtSecret"),
-        { expiresIn: 360000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+
+      // jwt.sign(
+      //   payload,
+      //   config.get("jwtSecret"),
+      //   { expiresIn: 360000 },
+      //   (err, token) => {
+      //     if (err) throw err;
+      //     // res.json({ token });
+      //   }
+      // );
+
+      // Sending Email for Confirmation
+      var transporter = nodemailer.createTransport({
+        host: "mail.privateemail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: Confirmationemail, // your domain email address
+          pass: emailPassword, // your password
+        },
+      });
+
+        jwt.sign(payload,config.get("jwtSecret"),{expiresIn:'1d'},(err,emailToken)=>{
+          const url = `http://localhost:5500/api/users/confirm/${emailToken}`;
+          transporter.sendMail({
+            to:user.email,
+            from: "support@libri.fun",
+            subject:"Confirm Email",
+            html:`Please click on this <a href="${url}">link</a> to confirm your account`
+          });
+          
+         console.log("Email Sent")
+        
+        })
+        return res.json({ msg: "Please confirm your email to log in" });
+       
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
+  
 );
 
+router.get('/confirm/:token',async(req,res)=>{
+  try{
+    const {user:{id}}= jwt.verify(req.params.token, config.get("jwtSecret"))
+
+    try{
+      var useros = await User.findById(id).exec();
+            
+        if(!useros){
+          return res.status(422).json({error:`${typeof UserID}`})
+        }
+        useros.confirmed = true;
+        await useros.save();
+        return res.redirect('http://localhost:3000/login')
+      
+    }
+    catch(err){
+        console.log(err);
+    }
+    
+  }
+  catch(err){
+    res.send(`${err}`)
+    console.log(err)
+  }
+ 
+})
 module.exports = router;

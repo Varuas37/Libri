@@ -9,8 +9,12 @@ import {
   LOGIN_FAILED,
   LOGOUT,
   CLEAR_PROFILE,
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAILED
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
+import { useHistory } from "react-router-dom";
+
 //LOAD USER
 
 export const loadUser = () => async (dispatch) => {
@@ -42,15 +46,19 @@ export const registerUser = ({ name, lastname, email, password }) => async (
   const body = JSON.stringify({ name, lastname, email, password });
   try {
     const res = await axios.post("/api/users/register", body, config);
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
-    dispatch(loadUser());
+    // dispatch({
+    //   type: REGISTER_SUCCESS,
+    //   payload: res.data,
+    // });
+    
+    dispatch(setAlert(`${res.data.msg}`,"success"));
+    
   } catch (err) {
     const errors = err.response.data.errors;
+
     if (errors) {
-      dispatch(setAlert("User Already Exists 🙎‍♂️", "danger"));
+
+      dispatch(setAlert(`${err.response.data.errors[0].msg}`, "danger"));
     }
 
     dispatch({
@@ -59,7 +67,7 @@ export const registerUser = ({ name, lastname, email, password }) => async (
   }
 };
 
-// REGISTER USER
+// LOGIN USER
 
 export const login = (email, password) => async (dispatch) => {
   const config = {
@@ -78,13 +86,80 @@ export const login = (email, password) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      dispatch(setAlert("Invalid Credentials 🔐", "danger"));
+      console.log(err.response.data.errors)
+      dispatch(setAlert(`${err.response.data.errors[0].msg}`, "danger"));
     }
     dispatch({
       type: LOGIN_FAILED,
     });
   }
 };
+
+export const resetpassword = (email) => async (dispatch)=>{
+  const config={
+    headers:{
+      "Content-Type":"application/json"
+    },
+  }
+  const body = JSON.stringify({email})
+  try{
+    const res = await axios.post("/api/auth/reset-password",body,config);
+    
+    dispatch({
+      type:RESET_PASSWORD,
+      payload:res.data,
+    })
+    console.log(res.data)
+   
+    dispatch(setAlert(`${res.data.msg}`,"success"));
+
+  }
+  catch(err){
+    const errors = err.response.data;
+   
+    if (errors) {
+      console.log(errors)
+      dispatch(setAlert(`${errors.error}`, "danger"));
+    }
+    dispatch({
+      type: RESET_PASSWORD_FAILED,
+    });
+    
+  }
+}
+
+export const newPassword = (password,token) =>async (dispatch)=>{
+  const config = {
+    headers:{
+      "Content-Type":"application/json"
+    },
+  }
+  const body = JSON.stringify({password,token})
+  
+  try{
+    const res = await axios.post("/api/auth/newpassword",body,config);
+    dispatch({
+      type:RESET_PASSWORD,
+      payload:res.data,
+    })
+    console.log(res.data)
+   
+    dispatch(setAlert(`${res.data.msg}`,"success"));
+  }
+  catch(err){
+    const errors = err.response.data;
+   
+    if (errors) {
+      console.log(errors)
+      dispatch(setAlert(`${errors.error}`, "danger"));
+    }
+    dispatch({
+      type: RESET_PASSWORD_FAILED,
+    });
+  }
+
+
+}
 
 // LOGOUT USESR /CLEAR PROFILE
 
