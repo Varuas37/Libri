@@ -13,6 +13,8 @@ import {
   RESET_PASSWORD_FAILED
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
+import { useHistory } from "react-router-dom";
+
 //LOAD USER
 
 export const loadUser = () => async (dispatch) => {
@@ -44,15 +46,19 @@ export const registerUser = ({ name, lastname, email, password }) => async (
   const body = JSON.stringify({ name, lastname, email, password });
   try {
     const res = await axios.post("/api/users/register", body, config);
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
-    dispatch(loadUser());
+    // dispatch({
+    //   type: REGISTER_SUCCESS,
+    //   payload: res.data,
+    // });
+    
+    dispatch(setAlert(`${res.data.msg}`,"success"));
+    
   } catch (err) {
     const errors = err.response.data.errors;
+
     if (errors) {
-      dispatch(setAlert("User Already Exists 🙎‍♂️", "danger"));
+
+      dispatch(setAlert(`${err.response.data.errors[0].msg}`, "danger"));
     }
 
     dispatch({
@@ -61,7 +67,7 @@ export const registerUser = ({ name, lastname, email, password }) => async (
   }
 };
 
-// REGISTER USER
+// LOGIN USER
 
 export const login = (email, password) => async (dispatch) => {
   const config = {
@@ -80,7 +86,8 @@ export const login = (email, password) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      dispatch(setAlert("Invalid Credentials 🔐", "danger"));
+      console.log(err.response.data.errors)
+      dispatch(setAlert(`${err.response.data.errors[0].msg}`, "danger"));
     }
     dispatch({
       type: LOGIN_FAILED,

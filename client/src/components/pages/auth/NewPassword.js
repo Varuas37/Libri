@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect,useParams } from "react-router-dom";
+import { Link, Redirect,useParams,useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import Alert from "../../layout/Alert";
@@ -10,9 +10,11 @@ import { newPassword } from "../../../stores/action/auth";
 
 const NewPassword = ({ newPassword, isAuthenticated }) => {
   const { register, handleSubmit, errors,watch } = useForm();
+  let history = useHistory();
   const onSubmit = (data) => {
     const {password } = data;
     newPassword(password,token);
+    setTimeout(() => { history.push("/login"); }, 3000);
   };
   const {token} =useParams();
 console.log(token);

@@ -5,12 +5,12 @@ const config = require("config");
 const bcrypt = require("bcryptjs");
 const auth = require("../../../middleware/auth");
 const User = require("../../../models/User/User");
-const crypto = require('crypto');
+const crypto = require("crypto");
 const { check, validationResult } = require("express-validator");
 const { json } = require("body-parser");
-const email = process.env.EMAIL
-const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD
-const nodemailer = require("nodemailer")
+const email = process.env.EMAIL;
+const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD;
+const nodemailer = require("nodemailer");
 //@route POST api/auth
 //@desc Auth route
 //@access Public
@@ -51,6 +51,12 @@ router.post(
           .json({ errors: [{ msg: "Invalid credentials 🔐" }] });
       }
 
+      if (!user.confirmed) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Please confirm your email to login" }] });
+      }
+
       //Check if the passwords match
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -82,90 +88,87 @@ router.post(
     }
   }
 );
-
-router.post('/reset-password',
-[
-  check("email", "Please include a valid Email").not().isEmpty(),
- 
-],
-(req,res) =>{
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  crypto.randomBytes(32,(err,buffer)=>{
-    if(err){
-      console.log(err)
+//@route POST api/auth/reset-password
+//@desc Reset Password for users
+//@access Public
+router.post(
+  "/reset-password",
+  [check("email", "Please include a valid Email").not().isEmpty()],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    var transporter = nodemailer.createTransport({
-      host: 'mail.privateemail.com',
-      port: 465,
-      secure: true, // true for 465, false for other ports
-      auth: {
-        user: email, // your domain email address
-        pass: emailPassword // your password
+    crypto.randomBytes(32, (err, buffer) => {
+      if (err) {
+        console.log(err);
       }
-    });
+      var transporter = nodemailer.createTransport({
+        host: "mail.privateemail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: email, // your domain email address
+          pass: emailPassword, // your password
+        },
+      });
 
-const token = buffer.toString("hex")
-User.findOne({email:req.body.email})
-.then(user=>{
-  if(!user){
-    return res.status(422).json({error:"User not found"})
-  }
-  user.resetToken = token,
-  user.expireToken = Date.now()+ 3600000
-  user.save().then((result)=>{
-
-
-    transporter.sendMail(
-     {
-      to: user.email,
-      from: "support@libri.fun",
-      subject:"Password Reset",
-      html:`
+      const token = buffer.toString("hex");
+      User.findOne({ email: req.body.email }).then((user) => {
+        if (!user) {
+          return res.status(422).json({ error: "User not found" });
+        }
+        (user.resetToken = token), (user.expireToken = Date.now() + 3600000);
+        user.save().then((result) => {
+          transporter.sendMail({
+            to: user.email,
+            from: "support@libri.fun",
+            subject: "Password Reset",
+            html: `
         <p>Please click on this  <a href ="http://localhost:3000/reset/${token}">link </a>to reset your password</p>
-    `
-     }
-    )
-    res.json({msg:"Please check your email to reset your password"})
-  })
-})
-  })
-
-})
-router.post('/newpassword',
-[
-  check("password", "Please include a valid Password").exists(),
- 
-],
-(req,res) =>{
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    `,
+          });
+          res.json({ msg: "Please check your email to reset your password" });
+        });
+      });
+    });
   }
+);
 
-  const newPassword = req.body.password
-  const sentToken = req.body.token
-  User.findOne({resetToken:sentToken,expireToken:{$gt:Date.now()}})
-  .then(user=>{
-    if(!user){
-      return res.status(422).json({error:"Session Expired. Please Try again"})
+//@route POST api/auth/newpassword
+//@desc Update Password for
+//@access Public
+router.post(
+  "/newpassword",
+  [check("password", "Please include a valid Password").exists()],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    bcrypt.hash(newPassword,12).then(hashedpassword=>{
-      user.password = hashedpassword
-      user.resetToken = undefined
-      user.expireToken = undefined
-      user.save().then((saveduser)=>{
-        res.json({msg:"Password updated"})
+
+    const newPassword = req.body.password;
+    const sentToken = req.body.token;
+    User.findOne({ resetToken: sentToken, expireToken: { $gt: Date.now() } })
+      .then((user) => {
+        if (!user) {
+          return res
+            .status(422)
+            .json({ error: "Session Expired. Please Try again" });
+        }
+        bcrypt.hash(newPassword, 12).then((hashedpassword) => {
+          user.password = hashedpassword;
+          user.resetToken = undefined;
+          user.expireToken = undefined;
+          user.save().then((saveduser) => {
+            res.json({ msg: "Password updated" });
+          });
+        });
       })
-    })
-  }).catch(err=>{
-    console.log(err);
-  })
-
-})
-
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
 
 module.exports = router;

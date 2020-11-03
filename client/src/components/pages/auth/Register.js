@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect,useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 
@@ -12,10 +12,14 @@ import Alert from "../../layout/Alert";
 
 const Register = ({ registerUser, isAuthenticated }) => {
   const { register, handleSubmit, watch, errors } = useForm();
+  let history = useHistory();
   const onSubmit = async (data) => {
     const { name, lastname, email, password, password2 } = data;
-
+  
     registerUser({ name, lastname, email, password, password2 });
+    setTimeout(() => { history.push("/login"); }, 3000);
+
+   
   };
   if (isAuthenticated) {
     return <Redirect to="/Home" />;
