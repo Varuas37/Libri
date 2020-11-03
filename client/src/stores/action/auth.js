@@ -9,6 +9,8 @@ import {
   LOGIN_FAILED,
   LOGOUT,
   CLEAR_PROFILE,
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAILED
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
 //LOAD USER
@@ -85,6 +87,39 @@ export const login = (email, password) => async (dispatch) => {
     });
   }
 };
+
+export const resetpassword = (email) => async (dispatch)=>{
+  const config={
+    headers:{
+      "Content-Type":"application/json"
+    },
+  }
+  const body = JSON.stringify({email})
+  try{
+    const res = await axios.post("/api/auth/reset-password",body,config);
+    
+    dispatch({
+      type:RESET_PASSWORD,
+      payload:res.data,
+    })
+    console.log(res.data)
+   
+    dispatch(setAlert(`${res.data.msg}`,"danger"));
+
+  }
+  catch(err){
+    const errors = err.response.data;
+   
+    if (errors) {
+      console.log(errors)
+      dispatch(setAlert(`${errors.error}`, "danger"));
+    }
+    dispatch({
+      type: RESET_PASSWORD_FAILED,
+    });
+    
+  }
+}
 
 // LOGOUT USESR /CLEAR PROFILE
 

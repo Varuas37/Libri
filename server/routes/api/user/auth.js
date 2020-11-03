@@ -83,7 +83,17 @@ router.post(
   }
 );
 
-router.post('/reset-password',(req,res) =>{
+router.post('/reset-password',
+[
+  check("email", "Please include a valid Email").not().isEmpty(),
+ 
+],
+(req,res) =>{
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   crypto.randomBytes(32,(err,buffer)=>{
     if(err){
       console.log(err)
@@ -119,13 +129,43 @@ User.findOne({email:req.body.email})
     `
      }
     )
-    res.json({message:"Please check your email to reset your password"})
+    res.json({msg:"Please check your email to reset your password"})
   })
 })
   })
 
 })
+router.post('/reset-password',
+[
+  check("password", "Please include a valid Password").not().exists(),
+ 
+],
+(req,res) =>{
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
+  const newPassword = req.body.password
+  const sentToken = req.body.token
+  User.findOne({resetToken:sentToken,expireToken:{$gt:Date.now()}})
+  .then(user=>{
+    if(!user){
+      return res.status(422).json({error:"Session Expired. Please Try again"})
+    }
+    bcrypt.hash(newPassword,12).then(hashedpassword=>{
+      user.password = hashedpassword
+      user.resetToken = undefined
+      user.expireToken = undefined
+      user.save().then((saveduser)=>{
+        res.json({msg:"Password updated"})
+      })
+    })
+  }).catch(err=>{
+    console.log(err);
+  })
+
+})
 
 
 module.exports = router;

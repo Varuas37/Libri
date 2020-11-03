@@ -6,33 +6,13 @@ import Alert from "../../layout/Alert";
 import PropTypes from "prop-types";
 
 // Importing Actions
-import { login } from "../../../stores/action/auth";
+import { resetpassword } from "../../../stores/action/auth";
 
-const  ResetPassword = ({ login, isAuthenticated }) => {
+const  ResetPassword = ({ resetpassword, isAuthenticated }) => {
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     const { email} = data;
-    fetch('/api/auth/reset-password',{
-        method:"post",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            email
-        })
-    }).then(res=>res.json())
-    .then(data=>{
-      if(data.error){
-        console.log(data)
-      }
-      else{
-          console.log("Success")
-          //  history.push('/login')
-      }
-    }).catch(err=>{
-        console.log(err)
-    })
-
+    resetpassword(email);
   };
   if (isAuthenticated) {
     return <Redirect to="/Home" />;
@@ -86,11 +66,11 @@ const  ResetPassword = ({ login, isAuthenticated }) => {
   );
 };
 ResetPassword.propTypes = {
-  login: PropTypes.func.isRequired,
+  resetpassword: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps, { login })(ResetPassword);
+export default connect(mapStateToProps, { resetpassword })(ResetPassword);

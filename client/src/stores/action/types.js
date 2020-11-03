@@ -9,6 +9,10 @@ export const AUTH_ERR = "AUTH_ERR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT = "LOGOUT";
+
+
+export const RESET_PASSWORD = "RESET_PASSWORD"
+export const RESET_PASSWORD_FAILED ="RESET_PASSWORD_FAILED"
 // USER PROFILE
 export const GET_PROFILE = "GET_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
@@ -37,3 +41,5 @@ export const ADD_COMMENT = "ADD_COMMENT";
 export const REMOVE_COMMENT = "REMOVE_COMMENT";
 // SPECIFIC USER'S POST
 export const GET_USERS_POSTS = "GET_USERS_POSTS";
+
+

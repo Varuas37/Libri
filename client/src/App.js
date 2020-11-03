@@ -43,6 +43,7 @@ import Courses from "./components/pages/Courses/Courses";
 import OtherProfile from "./components/pages/Profile/OtherProfile";
 import CommingSoon from "./components/pages/UnderDevelopment/CommingSoon";
 import ResetPassword from "./components/pages/auth/ResetPassword";
+import NewPassword from "./components/pages/auth/NewPassword";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -96,13 +97,14 @@ const App = () => {
             />
             <PrivateRoute exact path="/events/:id" component={ProductDetails} />
             <PrivateRoute exact path="/profile/:id" component={OtherProfile} />
+            <Route exact path="/reset-password" component={ResetPassword} />
+            <Route exact path="/reset/:token" component={NewPassword} />
+
+            {/* Need to work on */}
             <PrivateRoute exact path="/message" component={CommingSoon} />
             <PrivateRoute exact path="/groups" component={CommingSoon} />
-
             <Route exact path="/courses" component={CommingSoon} />
             <Route exact path="/store/you/selling" component={CommingSoon} />
-            <Route exact path="/reset-password" component={ResetPassword} />
-
 
           </Switch>
         </Fragment>
