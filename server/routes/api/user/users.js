@@ -108,8 +108,8 @@ router.post(
       console.log(err.message);
       res.status(500).send("Server Error");
     }
-    return res.redirect('http://localhost:3000/login')
   }
+  
 );
 
 router.get('/confirm/:token',async(req,res)=>{
