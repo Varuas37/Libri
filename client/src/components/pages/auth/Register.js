@@ -17,8 +17,8 @@ const Register = ({ registerUser, isAuthenticated }) => {
     const { name, lastname, email, password, password2 } = data;
   
     registerUser({ name, lastname, email, password, password2 });
-    setTimeout(() => { history.push("/login"); }, 3000);
-
+    
+    history.push("/login");
    
   };
   if (isAuthenticated) {
