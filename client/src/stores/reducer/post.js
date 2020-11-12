@@ -13,7 +13,7 @@ import {
   LOAD_MORE_SUCCESS
 } from "../action/types";
 const initialState = {
-  loaded: [],
+  hasMore: [],
   posts: [],
   post: null,
   userPosts: [],
@@ -29,9 +29,9 @@ export default function (state = initialState, action) {
     case GET_POSTS:
      
       return {
-        
         ...state,
-        posts: payload.results,
+        posts: state.posts.concat(payload.results),
+        hasMore: payload.hasMore,
         post_loading: false,
       };
     case GET_USERS_POSTS:
@@ -47,18 +47,18 @@ export default function (state = initialState, action) {
         posts: [payload, ...state.posts],
         post_loading: false,
       };
-    case LOAD_MORE:
-      return {
-        ...state,
-        post_loading :true
-      }
-    case LOAD_MORE_SUCCESS:
-      const newPosts = payload.results
-      return{
-        ...state,
-        posts : [...state.posts, ...newPosts],
-        postLoading:false,
-      }   
+    // case LOAD_MORE:
+    //   return {
+    //     ...state,
+    //     post_loading :true
+    //   }
+    // case LOAD_MORE_SUCCESS:
+    //   const newPosts = payload.results
+    //   return{
+    //     ...state,
+    //     posts : [...state.posts, ...newPosts],
+    //     postLoading:false,
+    //   }   
     case GET_POST:
    
       return {

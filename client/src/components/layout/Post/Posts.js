@@ -8,7 +8,8 @@ import PropTypes from "prop-types";
 import { Waypoint } from "react-waypoint";
 
 function Posts({
-  posts: { posts, post_loading, userPosts, user_Posts_Loading, comments },
+  posts: { posts, post_loading, userPosts, user_Posts_Loading,hasMore,comments },
+
   getPosts,
   auth: { user },
   userProfile,
@@ -16,37 +17,30 @@ function Posts({
 
 }) {
   
-  const [loadedPosts,setLoadedPosts] = useState([])
+
   const [page,setPageNumber ] = useState(1);
-  const [limit,setLimit] = useState(1);
-  const [hasMore,setHasMore] = useState(false);
-  var p_ost = [];
+  const [limit,setLimit] = useState(3);
+
+
  
 const increasePage =()=>{
-  console.log(hasMore)
+
   if (hasMore){
     setPageNumber(prev=>prev+1);
     console.log("🧐 Page Nymber is being increased")
   }
   else{
-  //  console.log("NO more Posts Found");
+   console.log("NO more Posts Found");
   }
 
  }
-  useEffect(() => {
-    
-    p_ost =  getPosts(page, limit);
+ 
+ useEffect(() => {
+  getPosts(page,limit);
+  
+}, [page]);
 
-    p_ost.then(function(result) {
-     setHasMore(result.hasMore)
-      console.log(result)
-      console.log(hasMore)
-     setLoadedPosts(loadedPosts.concat(result.results))
-  });
-  //  return () => {
-  //   console.log("This will be logged on unmount");
-  // }
-  }, [page]);
+
 
 
   return userPosts && post_loading && posts && user_Posts_Loading === null ? (
@@ -62,10 +56,10 @@ const increasePage =()=>{
           )
         ) : // END OF PROFILE LOOP
         
-        loadedPosts && loadedPosts.length > 0 ? (
-          loadedPosts.map((post) => (
+        posts && posts.length > 0 ? (
+          posts.map((post) => (
             <Fragment>
-              <PostItem key={post._id} post={post} comments={loadedPosts.comments}/>
+              <PostItem key={post._id} post={post} comments={posts.comments}/>
               <Waypoint onEnter={increasePage}/>
             </Fragment>
           ))

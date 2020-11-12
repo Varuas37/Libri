@@ -23,7 +23,7 @@ export const getPosts = (page,limit) => async (dispatch) => {
       type: GET_POSTS,
       payload: res.data,
     });
-    return res.data;
+    // return res.data;
   } catch (err) {
     
     dispatch({
