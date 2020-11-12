@@ -9,7 +9,7 @@ const { remove } = require("../../../models/Posts/Post");
 const checkObjectId = require("../../../middleware/checkObjectId");
 const paginatedResults = require("../../../middleware/pagination");
 
-//@route    POST api/posts
+//@route    POST api/post
 //@desc     Create a post
 //@access   Private
 
@@ -39,23 +39,36 @@ router.post(
   }
 );
 
-//@route    GET api/posts
+//@route    GET api/post
 //@desc     Get a post
 //@access   Private
 
-//We pass in the Model and the query to the paginatedResult Middleware and it does the job for us. This allows us to pass complex queries.
+// router.get("/", auth, async (req, res) => {
+//   try {
+//     const posts = await Post.find().sort({ _id: -1 });
+//     res.json(posts);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
-const postquery = Post.find().sort({ _id: -1 });
-
-router.get("/", paginatedResults(Post,postquery), async (req, res) => {
+//@route    TEST GET api/posts
+//@desc     Get a post
+//@access   Public
+const query  = Post.find().sort({ _id: -1 });
+router.get("/", paginatedResults(Post,query), async (req, res) => {
   try {
+    // const posts = await ;
     res.json(res.paginatedResults);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
-//@route    GET api/posts/user/:id
+
+
+//@route    GET api/post/:id
 //@desc     Get a user's post
 //@access   Private
 

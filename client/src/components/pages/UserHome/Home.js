@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../../layout/Spinner/Spinner";
@@ -34,6 +34,9 @@ const Home = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
+
+
+
 
   return loading && profile === null ? (
     <Spinner />

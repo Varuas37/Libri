@@ -32,6 +32,9 @@ export const DELETE_EVENT = "DELETE_EVENT";
 // POSTS AND COMMENT
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
+export const LOAD_MORE = "LOAD_MORE"
+export const LOAD_MORE_SUCCESS = "LOAD_MORE_SUCCESS"
+
 export const POST_ERROR = "POST_ERROR";
 export const UPDATE_LIKES = "UPDATE_LIKES";
 export const UPDATE_LIKES_ERROR = "UPDATE_LIKES_ERROR";

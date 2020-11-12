@@ -9,8 +9,11 @@ import {
   REMOVE_COMMENT,
   GET_USERS_POSTS,
   UPDATE_LIKES_ERROR,
+  LOAD_MORE,
+  LOAD_MORE_SUCCESS
 } from "../action/types";
 const initialState = {
+  loaded: [],
   posts: [],
   post: null,
   userPosts: [],
@@ -22,10 +25,13 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+
     case GET_POSTS:
+     
       return {
+        
         ...state,
-        posts: payload,
+        posts: payload.results,
         post_loading: false,
       };
     case GET_USERS_POSTS:
@@ -41,7 +47,20 @@ export default function (state = initialState, action) {
         posts: [payload, ...state.posts],
         post_loading: false,
       };
+    case LOAD_MORE:
+      return {
+        ...state,
+        post_loading :true
+      }
+    case LOAD_MORE_SUCCESS:
+      const newPosts = payload.results
+      return{
+        ...state,
+        posts : [...state.posts, ...newPosts],
+        postLoading:false,
+      }   
     case GET_POST:
+   
       return {
         ...state,
         post: payload,
