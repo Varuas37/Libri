@@ -19,7 +19,7 @@ function Posts({
   
 
   const [page,setPageNumber ] = useState(1);
-  const [limit,setLimit] = useState(3);
+  const [limit,setLimit] = useState(1);
 
 
  
@@ -34,11 +34,11 @@ const increasePage =()=>{
   }
 
  }
- 
- useEffect(() => {
-  getPosts(page,limit);
-  
-}, [page]);
+
+  useEffect(() => {
+    getPosts(page,limit);
+    
+  }, [page]);
 
 
 
@@ -60,7 +60,7 @@ const increasePage =()=>{
           posts.map((post) => (
             <Fragment>
               <PostItem key={post._id} post={post} comments={posts.comments}/>
-              <Waypoint onEnter={increasePage}/>
+              <Waypoint onEnter={hasMore && increasePage}/>
             </Fragment>
           ))
         ) : (
