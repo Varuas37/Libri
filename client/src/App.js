@@ -17,7 +17,7 @@ import "./components/layout/Profile/Profile.css";
 import "./components/pages/Store/Sell.css";
 import "./components/layout/Searchbox/Searchbar.css";
 
-// IMPORTING COMPONENTS
+// IMPORTING COMPONENTS 
 import Landing from "./components/pages/Landing/Landing";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -44,6 +44,7 @@ import OtherProfile from "./components/pages/Profile/OtherProfile";
 import CommingSoon from "./components/pages/UnderDevelopment/CommingSoon";
 import ResetPassword from "./components/pages/auth/ResetPassword";
 import NewPassword from "./components/pages/auth/NewPassword";
+import EventDetails from "./components/pages/Product/DetailListing/EventDetails";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -95,7 +96,7 @@ const App = () => {
               path="/college-essentials/:id"
               component={ProductDetails}
             />
-            <PrivateRoute exact path="/events/:id" component={ProductDetails} />
+            <PrivateRoute exact path="/events/:id" component={EventDetails} />
             <PrivateRoute exact path="/profile/:id" component={OtherProfile} />
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/reset/:token" component={NewPassword} />

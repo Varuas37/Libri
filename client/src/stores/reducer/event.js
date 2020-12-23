@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
     case GET_EVENT:
       return {
         ...state,
-        product: payload,
+        event: payload,
         event_loading: false,
       };
 
