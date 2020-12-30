@@ -60,8 +60,10 @@ app.use("/api/auth", require("./routes/api/user/auth"));
 app.use("/api/category", require("./routes/api/product/category"));
 app.use("/api/products", require("./routes/api/product/products"));
 app.use("/api/events", require("./routes/api/product/events"));
+app.use("/api/university", require("./routes/api/university/university"));
 // Routes for Posts and Comments
 app.use("/api/posts", require("./routes/api/post/posts"));
+app.use("/api/friendRequest", require("./routes/api/user/friendRequest"));
 
 const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => console.log(`Server Started on ${PORT}`));

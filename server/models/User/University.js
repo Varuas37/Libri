@@ -20,5 +20,9 @@ const UniversitySchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  ranking:{
+    type: Number,
+  }
+
 });
 module.exports = University = mongoose.model("university", UniversitySchema);

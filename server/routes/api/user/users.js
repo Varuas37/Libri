@@ -9,8 +9,10 @@ const { json } = require("body-parser");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const Confirmationemail = process.env.EMAIL;
-const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD
+const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD;
 const User = require("../../../models/User/User");
+const auth = require("../../../middleware/auth");
+
 
 //@route POST api/users/register
 //@desc Test route
@@ -69,16 +71,6 @@ router.post(
         },
       };
 
-      // jwt.sign(
-      //   payload,
-      //   config.get("jwtSecret"),
-      //   { expiresIn: 360000 },
-      //   (err, token) => {
-      //     if (err) throw err;
-      //     // res.json({ token });
-      //   }
-      // );
-
       // Sending Email for Confirmation
       var transporter = nodemailer.createTransport({
         host: "mail.privateemail.com",
@@ -90,52 +82,137 @@ router.post(
         },
       });
 
-        jwt.sign(payload,config.get("jwtSecret"),{expiresIn:'1d'},(err,emailToken)=>{
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: "1d" },
+        (err, emailToken) => {
           const url = `http://localhost:5500/api/users/confirm/${emailToken}`;
           transporter.sendMail({
-            to:user.email,
+            to: user.email,
             from: "support@libri.fun",
-            subject:"Confirm Email",
-            html:`Please click on this <a href="${url}">link</a> to confirm your account`
+            subject: "Confirm Email",
+            html: `Please click on this <a href="${url}">link</a> to confirm your account`,
           });
-          
-         console.log("Email Sent")
-        
-        })
-        return res.json({ msg: "Please confirm your email to log in" });
-       
+
+          console.log("Email Sent");
+        }
+      );
+      return res.json({ msg: "Please confirm your email to log in" });
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
-  
 );
 
-router.get('/confirm/:token',async(req,res)=>{
-  try{
-    const {user:{id}}= jwt.verify(req.params.token, config.get("jwtSecret"))
+router.get("/confirm/:token", async (req, res) => {
+  try {
+    const {
+      user: { id },
+    } = jwt.verify(req.params.token, config.get("jwtSecret"));
 
-    try{
+    try {
       var useros = await User.findById(id).exec();
-            
-        if(!useros){
-          return res.status(422).json({error:`${typeof UserID}`})
-        }
-        useros.confirmed = true;
-        await useros.save();
-        return res.redirect('http://localhost:3000/login')
-      
+
+      if (!useros) {
+        return res.status(422).json({ error: `${typeof UserID}` });
+      }
+      useros.confirmed = true;
+      await useros.save();
+      return res.redirect("http://localhost:3000/login");
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-        console.log(err);
+  } catch (err) {
+    res.send(`${err}`);
+    console.log(err);
+  }
+});
+
+router.put("/follow/:id", auth, (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: { followers: req.user },
+    },
+    {
+      new: false,
+    },
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      }
+      User.findByIdAndUpdate(
+        req.user,
+        {
+          $push: { following: req.params.id },
+        },
+        { new: false }
+      )
+        .select("-password")
+        .then((result) => {
+          res.json(result);
+        })
+        .catch((err) => {
+          return res.status(422).json({ error: err });
+        });
     }
+  );
+});
+
+// router.put("/follow/:id", auth, async (req, res) => {
+//   try {
+//     const id = req.params.id
+//     var followedUser = await User.findByIdAndUpdate(id,{$push:{followers: req.user.id}});
+
     
-  }
-  catch(err){
-    res.send(`${err}`)
-    console.log(err)
-  }
- 
-})
+
+
+//   } catch (err) {
+//     res.send({ err: err });
+//   }
+// });
+
+router.put("/unfollow/:id", auth, (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $pull: { followers: req.user},
+    },
+    {
+      new: true,
+    },
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      }
+      User.findByIdAndUpdate(
+        req.user,
+        {
+          $pull: { following: req.params.id },
+        },
+        { new: true }
+      )
+        .select("-password")
+        .then((result) => {
+          res.json(result);
+        })
+        .catch((err) => {
+          return res.status(422).json({ error: err });
+        });
+    }
+  );
+});
+
 module.exports = router;
+
+// jwt.sign(
+//   payload,
+//   config.get("jwtSecret"),
+//   { expiresIn: 360000 },
+//   (err, token) => {
+//     if (err) throw err;
+//     // res.json({ token });
+//   }
+// );
