@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { connect } from "react-redux";
 import { Link, Redirect,useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,11 +7,17 @@ import PropTypes from "prop-types";
 // Importing Actions
 import { registerUser } from "../../../stores/action/auth";
 import { createProfile } from "../../../stores/action/profile";
+import { getUniversity } from "../../../stores/action/university";
 
 import Alert from "../../layout/Alert";
 
-const Register = ({ registerUser, isAuthenticated }) => {
+const Register = ({ registerUser, isAuthenticated,getUniversity,university }) => {
   const { register, handleSubmit, watch, errors } = useForm();
+
+  useEffect(() => {
+   getUniversity();
+  },[])
+
   let history = useHistory();
   const onSubmit = async (data) => {
     const { name, lastname, email, password, password2 } = data;
@@ -145,11 +151,13 @@ const Register = ({ registerUser, isAuthenticated }) => {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   createProfile: PropTypes.func.isRequired,
+  getUniversity: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  university:state.university
 });
-export default connect(mapStateToProps, { registerUser, createProfile })(
+export default connect(mapStateToProps, { registerUser, createProfile ,getUniversity})(
   Register
 );

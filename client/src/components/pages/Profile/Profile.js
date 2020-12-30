@@ -9,7 +9,8 @@ import RightSidebar from "../../layout/Sidebar/RightSidebar";
 import Sidebar from "../../layout/Sidebar/Sidebar";
 import PostItem from "../../layout/Post/PostItem";
 import { getUsersPosts } from "../../../stores/action/post";
-import { getProfileById } from "../../../stores/action/profile";
+import { getProfileById,followUser,unfollowUser } from "../../../stores/action/profile";
+
 import CreatePost from "../../layout/Post/CreatePost";
 import Posts from "../../layout/Post/Posts";
 const Profile = ({
@@ -17,6 +18,7 @@ const Profile = ({
   match,
   profile,
   getUsersPosts,
+  
 }) => {
   useEffect(() => {
     getUsersPosts(user._id);
@@ -46,6 +48,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
 });
-export default connect(mapStateToProps, { getProfileById, getUsersPosts })(
+export default connect(mapStateToProps, { getProfileById, getUsersPosts,followUser,unfollowUser })(
   Profile
 );

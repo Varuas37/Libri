@@ -5,7 +5,7 @@ import Sidebar from "../../../layout/Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import SidebarButton from "../../../layout/Sidebar/SidebarButton";
 import SidebarElements from "../../../layout/Sidebar/SidebarElements";
-import DetailedProduct from "../../../layout/ProductDetail/DetailedProduct";
+import DetailedEvent from "../../../layout/ProductDetail/DetailedEvent";
 import { getEvent } from "../../../../stores/action/event";
 import { connect } from "react-redux";
 import Spinner from "../../../layout/Spinner/Spinner";
@@ -46,7 +46,7 @@ function ProductDetails({ getEvent, event: { event, loading }, match }) {
           </Link>
         </Sidebar>
         <div className="product-content">
-          <DetailedProduct product={event}></DetailedProduct>
+          <DetailedEvent event={event}></DetailedEvent>
         </div>
       </GridWrapper>
     </Fragment>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 
-import { GET_PROFILE, PROFILE_ERROR } from "./types";
+import { GET_PROFILE, PROFILE_ERROR,FOLLOW_USER,UNFOLLOW_USER,ERR_FOLLOW } from "./types";
 
 // GET Current User's Profile
 
@@ -63,3 +63,43 @@ export const getProfileById = (userId) => async (dispatch) => {
     });
   }
 };
+
+// Follow a user
+export const followUser = (userId) => async (dispatch) => {
+  try {
+  
+    const res = await axios.put(`/api/users/follow/${userId}`,);
+    console.log(res.data);
+    dispatch({
+      type: FOLLOW_USER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERR_FOLLOW,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+// Unfollow a user
+export const unfollowUser = (userId) => async (dispatch) => {
+  try {
+
+    const body = JSON.stringify({followID:userId})
+    const res = await axios.put(`/api/users/unfollow/${userId}`);
+
+    dispatch({
+      type: UNFOLLOW_USER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: ERR_FOLLOW,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+
+
+

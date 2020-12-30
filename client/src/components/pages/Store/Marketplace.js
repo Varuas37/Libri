@@ -38,7 +38,7 @@ const Marketplace = ({
           <br></br>
           <Searchbar text="Search Store"></Searchbar>
           <br></br>
-          <SidebarElements name="Browse All" img={iconStore}></SidebarElements>
+         <SidebarElements name="Browse All" img={iconStore} link={"/store/you/selling"}></SidebarElements>
           <SidebarElements name="Your Account" img={iconUser}></SidebarElements>
           <br></br>
           <Link to="/store/create">
