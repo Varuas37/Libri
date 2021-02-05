@@ -31,14 +31,14 @@
     "uuid": "^8.2.0"
   },
   "scripts": {
-    "start": "PORT=3006 GENERATE_SOURCEMAP=false react-scripts start",
-    "build": "react-scripts build",
+    "start": "PORT=8000 react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
-  },π
+  },
   "browserslist": {
     "production": [
       ">0.2%",

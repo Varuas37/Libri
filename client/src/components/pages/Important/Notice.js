@@ -13,7 +13,8 @@ function Notice({ isAuthenticated }) {
 			<h1>Before you start</h1>
 			<ul>
 				<li>I started this project during the summer of 2020 and I have decided to end it</li>
-				<li>
+				<li>The password reset and confirmation features actually work but I have not paid for the plans. I might in the future. But, for now please login with the deafault login</li>
+                <li>
 					The codebase got really messy and I want this to be an actual project so I am re-writing it from
 					scratch .
 				</li>
