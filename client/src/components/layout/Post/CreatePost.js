@@ -11,6 +11,7 @@ const CreatePost = ({ addPost, auth: { user } }) => {
   };
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
+    
     addPost(data);
     modalRef.current.close();
   };
@@ -62,6 +63,15 @@ const CreatePost = ({ addPost, auth: { user } }) => {
             {errors.text && errors.text.type === "minLength" && (
               <p className="err-msg">Minimum 1 character required</p>
             )}
+            <div style={{display:"flex", justifyContent:"space-between" }}>
+            <span>Post to</span>
+            <select name="postTo" id="postTo" className="form-group" ref={register}>
+              <option value="university">University</option>
+              <option value="friends">Friends</option>
+              <option value="both">Both</option>
+            </select>
+            </div>
+       
             <button type="submit" class="post-btn">
               Post
             </button>

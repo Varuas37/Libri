@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../../layout/Spinner/Spinner";
@@ -25,56 +25,66 @@ const EventsImg = require("../../../assets/HomePage/Events.png");
 const BookIcon = require("../../../assets/HomePage/BookIcon.png");
 // const UserImg = require("../../../assets/HomePage/UserImg.png");
 
+
 const Home = ({
   getCurrentProfile,
-
+getUniversity,
   auth: { user },
   profile: { loading, profile },
 }) => {
+
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
-
-
-
+    
+  
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
       <GridWrapper>
         <Sidebar>
-          <Link to="/profile">
-            <SidebarElements
-              name={user && user.name}
-              img={user && user.avatar}
-            ></SidebarElements>
-          </Link>
-          <Link to="/message">
-            {" "}
-            <SidebarElements
-              name="Messages"
-              img={MessengerImg}
-            ></SidebarElements>
-          </Link>
-          <Link to="/courses">
-            {" "}
-            <SidebarElements name="Courses" img={StudyImg}></SidebarElements>
-          </Link>
-          <Link to="/groups">
-            <SidebarElements name="Groups" img={GroupImg}></SidebarElements>
-          </Link>
-          <Link to="/books">
-            <SidebarElements name="Books" img={BookIcon}></SidebarElements>
-          </Link>
-          <Link to="/store">
-            {" "}
-            <SidebarElements name="Shop" img={MarketPlaceImg}></SidebarElements>
-          </Link>
-          <Link to="/events">
-            {" "}
-            <SidebarElements name="Events" img={EventsImg}></SidebarElements>
-          </Link>
+          <SidebarElements
+            name={user && user.name}
+            img={user && user.avatar}
+            link={"/profile"}
+          ></SidebarElements>{" "}
+          <SidebarElements
+            name="Messages"
+            img={MessengerImg}
+            link={"/message"}
+          ></SidebarElements>
+          <SidebarElements
+            name="Courses"
+            img={StudyImg}
+            link={"/courses"}
+          ></SidebarElements>
+          <SidebarElements
+            name="Groups"
+            img={GroupImg}
+            link={"/groups"}
+          ></SidebarElements>
+          <SidebarElements
+            name="Books"
+            img={BookIcon}
+            link={"/books"}
+          ></SidebarElements>
+          <SidebarElements
+            name="Shop"
+            img={MarketPlaceImg}
+            link={"/store"}
+          ></SidebarElements>
+          <SidebarElements
+            name="Events"
+            img={EventsImg}
+            link={"/events"}
+          ></SidebarElements>
+             <SidebarElements
+            name="Important"
+            img={BookIcon}
+            link={"/important"}
+          ></SidebarElements>
         </Sidebar>
 
         <ContentWrapper>
@@ -94,6 +104,7 @@ const Home = ({
 };
 Home.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };

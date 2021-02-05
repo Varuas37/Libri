@@ -7,7 +7,6 @@ const Profile = require("../../../models/User/UserProfile");
 const User = require("../../../models/User/User");
 const { remove } = require("../../../models/Posts/Post");
 const checkObjectId = require("../../../middleware/checkObjectId");
-const paginatedResults = require("../../../middleware/pagination");
 
 //@route    POST api/post
 //@desc     Create a post
@@ -28,6 +27,7 @@ router.post(
         name: user.name,
         avatar: user.avatar,
         user: req.user.id,
+        postTo: req.body.postTo,
       });
 
       const post = await newPost.save();
@@ -43,31 +43,15 @@ router.post(
 //@desc     Get a post
 //@access   Private
 
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const posts = await Post.find().sort({ _id: -1 });
-//     res.json(posts);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-//@route    TEST GET api/posts
-//@desc     Get a post
-//@access   Public
-const query  = Post.find().sort({ _id: -1 });
-router.get("/", paginatedResults(Post,query), async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
-    // const posts = await ;
-    res.json(res.paginatedResults);
+    const posts = await Post.find().sort({ _id: -1 });
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
-
-
 //@route    GET api/post/:id
 //@desc     Get a user's post
 //@access   Private
@@ -107,6 +91,59 @@ router.get("/:id", auth, async (req, res) => {
     }
   }
 });
+
+//@route    GET api/posts/:id
+//@desc     Get user feed
+//@access   Private
+
+router.get("/feed", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: "Post Not Found" });
+    }
+
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == "ObjectId") {
+      return res.status(404).json({ msg: "Post Not Found" });
+    } else {
+      res.status(500).send("Server Error");
+    }
+  }
+});
+
+//@route    GET api/posts/:id
+//@desc     Get friends feed
+//@access   Private
+
+router.get("/friendsfeed", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: "Post Not Found" });
+    }
+
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == "ObjectId") {
+      return res.status(404).json({ msg: "Post Not Found" });
+    } else {
+      res.status(500).send("Server Error");
+    }
+  }
+});
+
+
+
 //@route    DELETE api/posts/:id
 //@desc     Delete a post
 //@access   Private

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -6,12 +6,19 @@ import PropTypes from "prop-types";
 import Features from "./Features";
 import Footer from "../../layout/HeaderFooters/Footer";
 import Navbar from "../../layout/HeaderFooters/Navbar";
+import { getUniversity } from "../../../stores/action/university";
 const imgSocial = require("../../../assets/img/social.png");
 
-const Landing = ({ isAuthenticated }) => {
+const Landing = ({ isAuthenticated,getUniversity }) => {
+
+  //   useEffect(() => {
+  //   getUniversity();
+    
+  //  },[])
   if (isAuthenticated) {
     return <Redirect to="/Home" />;
   }
+
 
   return (
     <Fragment>
@@ -57,4 +64,4 @@ Landing.propTypes = {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps,{getUniversity})(Landing);

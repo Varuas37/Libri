@@ -1,47 +1,21 @@
-import React, { useEffect, Fragment ,useState,useCallback,useRef} from "react";
+import React, { useEffect, Fragment } from "react";
 import { getPosts } from "../../../stores/action/post";
 import { connect } from "react-redux";
 import PostItem from "./PostItem";
 import { withRouter } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import PropTypes from "prop-types";
-import { Waypoint } from "react-waypoint";
 
 function Posts({
-  posts: { posts, post_loading, userPosts, user_Posts_Loading,hasMore,comments },
-
+  posts: { posts, post_loading, userPosts, user_Posts_Loading, comments },
   getPosts,
   auth: { user },
   userProfile,
   userID,
-
 }) {
-  
-
-  const [page,setPageNumber ] = useState(1);
-  const [limit,setLimit] = useState(1);
-
-
- 
-const increasePage =()=>{
-
-  if (hasMore){
-    setPageNumber(prev=>prev+1);
-    console.log("🧐 Page Nymber is being increased")
-  }
-  else{
-   console.log("NO more Posts Found");
-  }
-
- }
-
   useEffect(() => {
-    getPosts(page,limit);
-    
-  }, [page]);
-
-
-
+    getPosts();
+  }, []);
 
   return userPosts && post_loading && posts && user_Posts_Loading === null ? (
     <Spinner />
@@ -55,21 +29,15 @@ const increasePage =()=>{
             <h2>User's posts not found</h2>
           )
         ) : // END OF PROFILE LOOP
-        
         posts && posts.length > 0 ? (
           posts.map((post) => (
-            <Fragment>
-              <PostItem key={post._id} post={post} comments={posts.comments}/>
-              <Waypoint onEnter={hasMore && increasePage}/>
-            </Fragment>
+            <PostItem key={post._id} post={post} comments={posts.comments} />
           ))
         ) : (
           <p></p>
         )
         // END OF POST LOOP
-        
       }
-    
     </Fragment>
   );
 }

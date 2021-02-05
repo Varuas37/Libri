@@ -32,6 +32,7 @@ const Login = ({ login, isAuthenticated }) => {
           <input
             type="email"
             name="email"
+            value="saurav.panthee@gmail.com"
             className="form-control form-control-lg"
             placeholder="Email"
             ref={register({
@@ -51,6 +52,7 @@ const Login = ({ login, isAuthenticated }) => {
           <input
             type="password"
             name="password"
+            value="saurav.panthee@gmail.com"
             className="form-control form-control-lg"
             placeholder="Password"
             ref={register({ required: true, minLength: 6 })}

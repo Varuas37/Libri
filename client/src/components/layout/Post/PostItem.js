@@ -65,29 +65,29 @@ const PostItem = ({
       {/* MODAL MESSAGE */}
       <Modal ref={modalRef}>
         <div id="pop-over-modal" className="pop-over-modal">
-          <div className="pop-over-modal-container">
-            <div className="pop-over-modal-header">
+          <div class="pop-over-modal-container">
+            <div class="pop-over-modal-header">
               <div>Delete Post?</div>
               <i
                 title="Close Modal"
-                className="pop-over-modal-close fas fa-times"
+                class="pop-over-modal-close fas fa-times"
                 onClick={() => modalRef.current.close()}
               ></i>
             </div>
 
-            <div className="pop-over-modal-content">
+            <div class="pop-over-modal-content">
               <p>Are you sure you want to delete this post?</p>
             </div>
-            <div className="pop-over-modal-buttons">
+            <div class="pop-over-modal-buttons">
               <div
                 type="button"
-                className="cancelbtn"
+                class="cancelbtn"
                 onClick={() => modalRef.current.close()}
               >
                 Cancel
               </div>
 
-              <button className="deletebtn" onClick={() => deletePost(_id)}>
+              <button class="deletebtn" onClick={() => deletePost(_id)}>
                 Delete
               </button>
             </div>
@@ -193,7 +193,7 @@ const PostItem = ({
               <CommentItem key={comment._id} comment={comment} postId={_id} />
             ))} */}
             {/* <CommentItem key={comment._id} comment={comment} postID={_id} /> */}
-            
+            {console.log(comments)}
             {comments.map((comment) => (
               <CommentItem key={comment._id} comment={comment} postID={_id} />
             ))}

@@ -25,6 +25,13 @@ const PostSchema = new Schema({
       },
     },
   ],
+  postTo:{
+    type: Array,
+  },
+  public:{
+  type:Boolean,
+  default:true,
+  },
   comments: [
     {
       user: {

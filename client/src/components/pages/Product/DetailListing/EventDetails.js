@@ -5,25 +5,25 @@ import Sidebar from "../../../layout/Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import SidebarButton from "../../../layout/Sidebar/SidebarButton";
 import SidebarElements from "../../../layout/Sidebar/SidebarElements";
-import DetailedProduct from "../../../layout/ProductDetail/DetailedProduct";
-import { getProduct } from "../../../../stores/action/product";
+import DetailedEvent from "../../../layout/ProductDetail/DetailedEvent";
+import { getEvent } from "../../../../stores/action/event";
 import { connect } from "react-redux";
 import Spinner from "../../../layout/Spinner/Spinner";
 const iconStore = require("../../../../assets/HomePage/MarketPlace.png");
 const iconBook = require("../../../../assets/HomePage/BookIcon.png");
 const iconEvent = require("../../../../assets/HomePage/Events.png");
-function ProductDetails({ getProduct, product: { product, loading }, match }) {
+function ProductDetails({ getEvent, event: { event, loading }, match }) {
   useEffect(() => {
-    getProduct(match.params.id);
-  }, [getProduct, match.params.id]);
+    getEvent(match.params.id);
+  }, [getEvent, match.params.id]);
 
-  return loading && product === null ? (
+  return loading && event === null ? (
     <Spinner />
   ) : (
     <Fragment>
       <GridWrapper navItems={true} branding={false}>
         <Sidebar color="#242526">
-          <h5>Product Details</h5>
+          <h5>Event Details</h5>
           <br></br>
           <Link to="/store/create">
             <SidebarButton text=" +    Create Listing"></SidebarButton>
@@ -46,7 +46,7 @@ function ProductDetails({ getProduct, product: { product, loading }, match }) {
           </Link>
         </Sidebar>
         <div className="product-content">
-          <DetailedProduct product={product}></DetailedProduct>
+          <DetailedEvent event={event}></DetailedEvent>
         </div>
       </GridWrapper>
     </Fragment>
@@ -54,11 +54,11 @@ function ProductDetails({ getProduct, product: { product, loading }, match }) {
 }
 
 ProductDetails.propTypes = {
-  getProduct: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
+  getEvent: PropTypes.func.isRequired,
+  event: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  product: state.product,
+  event: state.event,
 });
-export default connect(mapStateToProps, { getProduct })(ProductDetails);
+export default connect(mapStateToProps, { getEvent })(ProductDetails);

@@ -1,29 +1,22 @@
-// Got the idea for this model from https://github.com/ThomasFoydel/socialmedia/blob/master/models/privateMessage.js
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const FriendRequestSchema = new Schema({
+  requests:[{
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  }],
+  requestRecieved:[{
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  }],
+  requestSent:[{
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  }],
 
-const friendRequestSchema = new Schema(
-  {
-    sender: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User'
-    },
-    recipient: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User'
-    },
-    status: {
-      type: String,
-      required: true
-    },
-    friendshipParticipants: {
-      type: [Schema.Types.ObjectId]
-    }
-  },
-  { timestamps: true }
-);
+  // followers:[{type:Schema.Types.ObjectID,ref:"user"}],
+  // following:[{type:ObjectID,ref:"user"}]
 
-module.exports = mongoose.model('FriendRequest', friendRequestSchema);
+});
+
+module.exports = FriendRequest = mongoose.model("friendRequest", FriendRequestSchema);

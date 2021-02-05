@@ -3,12 +3,13 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
+import {followUser,unfollowUser} from "../../../stores/action/profile"
 const ProfileHeader = ({
   auth: { isAuthenticated, loading },
   profile: { profile },
   match,
   otherUser,
+  followUser,unfollowUser
 }) => {
   return (
     <Fragment>
@@ -41,8 +42,8 @@ const ProfileHeader = ({
               <i className="fas fa-user-plus"></i> Add Friend
             </div> */}
             {otherUser ? (
-              <div className="profile-buttons">
-                <i className="fas fa-user-profile"></i> Add Friend
+              <div className="profile-buttons" onClick={()=>followUser(profile.user._id)}>
+                <i className="fas fa-user-profile"></i> Follow
               </div>
             ) : (
               <div className="profile-buttons">
@@ -68,4 +69,4 @@ ProfileHeader.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps)(ProfileHeader);
+export default connect(mapStateToProps,{followUser,unfollowUser})(ProfileHeader);

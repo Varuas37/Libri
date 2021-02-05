@@ -1,8 +1,8 @@
-import React, { Fragment, useState ,useEffect} from "react";
+import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { addComment,getPost } from "../../../../stores/action/post";
+import { addComment } from "../../../../stores/action/post";
 import PropTypes from "prop-types";
 import "./Comment.css";
 const CreateComment = ({
@@ -13,10 +13,8 @@ const CreateComment = ({
   submitID,
 }) => {
   const { register, handleSubmit, watch, errors } = useForm();
-
   const onSubmit = async (data) => {
     addComment(postID, data);
-    
     document.getElementById(CommentId).value = "";
   };
 

@@ -11,10 +11,10 @@ import { newPassword } from "../../../stores/action/auth";
 const NewPassword = ({ newPassword, isAuthenticated }) => {
   const { register, handleSubmit, errors,watch } = useForm();
   let history = useHistory();
-  const onSubmit = (data,e) => {
+  const onSubmit = (data) => {
     const {password } = data;
     newPassword(password,token);
-    history.push("/login");
+    setTimeout(() => { history.push("/login"); }, 3000);
   };
   const {token} =useParams();
 console.log(token);

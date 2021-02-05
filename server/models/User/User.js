@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-
-const UserSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const UserSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -26,10 +26,6 @@ const UserSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
-  history: {
-    type: Array,
-    default: [],
-  },
   role: {
     type: Number,
     default: 0,
@@ -37,15 +33,15 @@ const UserSchema = new mongoose.Schema({
   token: {
     type: String,
   },
-  resetToken:{
-    type:String,
+  resetToken: {
+    type: String,
   },
-  expireToken:{
-    type:Date,
+  expireToken: {
+    type: Date,
   },
-  confirmed:{
-    type:Boolean,
-    default:false,
+  confirmed: {
+    type: Boolean,
+    default: false,
   },
   date: {
     type: Date,
@@ -55,6 +51,46 @@ const UserSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  studentUniversity: {
+    type: Array,
+    ref: "university",
+  },
+  requestsSent: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  requests: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  followers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  blocked:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:"user",
+    }
+  ]
 });
 
 module.exports = User = mongoose.model("user", UserSchema);

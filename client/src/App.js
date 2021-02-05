@@ -17,7 +17,7 @@ import "./components/layout/Profile/Profile.css";
 import "./components/pages/Store/Sell.css";
 import "./components/layout/Searchbox/Searchbar.css";
 
-// IMPORTING COMPONENTS
+// IMPORTING COMPONENTS 
 import Landing from "./components/pages/Landing/Landing";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -37,14 +37,15 @@ import EventForm from "./components/layout/CreateListing/EventForm";
 import BookMarket from "./components/pages/Store/BookMarket";
 import ProductMarket from "./components/pages/Store/ProductMarket";
 import EventMarket from "./components/pages/Store/EventMarket";
-
+import DetailedProduct from "./components/layout/ProductDetail/DetailedProduct";
 import ProductDetails from "./components/pages/Product/DetailListing/ProductDetails";
-
+import Courses from "./components/pages/Courses/Courses";
 import OtherProfile from "./components/pages/Profile/OtherProfile";
 import CommingSoon from "./components/pages/UnderDevelopment/CommingSoon";
 import ResetPassword from "./components/pages/auth/ResetPassword";
 import NewPassword from "./components/pages/auth/NewPassword";
-import Testpage from "./components/pages/TestPage/Testpage";
+import EventDetails from "./components/pages/Product/DetailListing/EventDetails";
+import Notice from "./components/pages/Important/Notice";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -59,8 +60,8 @@ const App = () => {
       <Router history={history}>
         <Fragment>
           <Alert></Alert>
-      
-          <Route exact path="/" component={Landing} />
+          {/* <PopoverAlert></PopoverAlert> */}
+          <Route exact path="/landing" component={Landing} />
           <Switch>
             <PrivateRoute exact path="/Home" component={Home} />
             <Route exact path="/login" component={Login} />
@@ -96,7 +97,7 @@ const App = () => {
               path="/college-essentials/:id"
               component={ProductDetails}
             />
-            <PrivateRoute exact path="/events/:id" component={ProductDetails} />
+            <PrivateRoute exact path="/events/:id" component={EventDetails} />
             <PrivateRoute exact path="/profile/:id" component={OtherProfile} />
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/reset/:token" component={NewPassword} />
@@ -105,8 +106,9 @@ const App = () => {
             <PrivateRoute exact path="/message" component={CommingSoon} />
             <PrivateRoute exact path="/groups" component={CommingSoon} />
             <Route exact path="/courses" component={CommingSoon} />
+            <Route exact path="/settings" component={CommingSoon} />
             <Route exact path="/store/you/selling" component={CommingSoon} />
-            <Route exact path="/testpage" component={Testpage} />
+            <Route exact path="/" component={Notice} />
 
           </Switch>
         </Fragment>
