@@ -16,7 +16,7 @@ const University = require("../../../models/User/University")
 
 router.get("/",async (req, res) => {
     try {
-      const universities = await University.find({},{"name":1});
+      const universities = await University.find();
       res.json(universities);
     } catch (err) {
       console.error(err.message);

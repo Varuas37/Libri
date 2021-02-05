@@ -22,7 +22,7 @@ export const getCurrentProfile = () => async (dispatch) => {
 
 // Create or update profile
 
-export const createProfile = (formData, history, edit = false) => async (
+export const createProfile = (formData, history,edit = false) => async (
   dispatch
 ) => {
   try {
@@ -37,9 +37,9 @@ export const createProfile = (formData, history, edit = false) => async (
       payload: res.data,
     });
     dispatch(setAlert(edit ? "Profile Updated" : "Profile Created"));
-    if (!edit) {
-      history.push("/Home");
-    }
+    // if (!edit) {
+    //   history.push("/Home");
+    // }
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -68,7 +68,7 @@ export const getProfileById = (userId) => async (dispatch) => {
 export const followUser = (userId) => async (dispatch) => {
   try {
   
-    const res = await axios.put(`/api/users/follow/${userId}`,);
+    const res = await axios.put(`/api/friendRequest/${userId}`,);
     console.log(res.data);
     dispatch({
       type: FOLLOW_USER,
@@ -86,7 +86,7 @@ export const unfollowUser = (userId) => async (dispatch) => {
   try {
 
     const body = JSON.stringify({followID:userId})
-    const res = await axios.put(`/api/users/unfollow/${userId}`);
+    const res = await axios.put(`/api/friendRequest/unfollow/${userId}`);
 
     dispatch({
       type: UNFOLLOW_USER,

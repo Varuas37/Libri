@@ -28,6 +28,11 @@ router.get("/:id", auth, async (req, res) => {
     .status(400)
     .json({ error: "Request Already Sent 🔐" });
    }
+   if(currentUser.friends.indexOf(req.params.id) !== -1){
+    return res
+    .status(400)
+    .json({ error: "Already Friends🔐" });
+   }
     await currentUser.update({
       $push: { requestsSent: req.params.id,following:req.params.id },
     });

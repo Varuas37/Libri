@@ -51,8 +51,8 @@ const UserSchema = new Schema({
     type: Array,
     default: [],
   },
-  university: {
-    type: Schema.Types.ObjectId,
+  studentUniversity: {
+    type: Array,
     ref: "university",
   },
   requestsSent: [

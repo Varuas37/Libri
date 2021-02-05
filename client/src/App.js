@@ -45,6 +45,7 @@ import CommingSoon from "./components/pages/UnderDevelopment/CommingSoon";
 import ResetPassword from "./components/pages/auth/ResetPassword";
 import NewPassword from "./components/pages/auth/NewPassword";
 import EventDetails from "./components/pages/Product/DetailListing/EventDetails";
+import Notice from "./components/pages/Important/Notice";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -60,7 +61,7 @@ const App = () => {
         <Fragment>
           <Alert></Alert>
           {/* <PopoverAlert></PopoverAlert> */}
-          <Route exact path="/" component={Landing} />
+          <Route exact path="/landing" component={Landing} />
           <Switch>
             <PrivateRoute exact path="/Home" component={Home} />
             <Route exact path="/login" component={Login} />
@@ -105,7 +106,9 @@ const App = () => {
             <PrivateRoute exact path="/message" component={CommingSoon} />
             <PrivateRoute exact path="/groups" component={CommingSoon} />
             <Route exact path="/courses" component={CommingSoon} />
+            <Route exact path="/settings" component={CommingSoon} />
             <Route exact path="/store/you/selling" component={CommingSoon} />
+            <Route exact path="/" component={Notice} />
 
           </Switch>
         </Fragment>

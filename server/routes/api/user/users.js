@@ -11,6 +11,7 @@ const nodemailer = require("nodemailer");
 const Confirmationemail = process.env.EMAIL;
 const emailPassword = process.env.SUPPORT_LOGIN_PASSWORD;
 const User = require("../../../models/User/User");
+const Profile = require("../../../models/User/UserProfile")
 const auth = require("../../../middleware/auth");
 
 
@@ -28,6 +29,7 @@ router.post(
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
     check("lastname", "Last Name is required").not().isEmpty(),
+    check("studentUniversity", "University is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -35,7 +37,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     //Destructure to pull our name, email and password from the req.body
-    const { name, lastname, email, password } = req.body;
+    const { name, lastname, email, password,studentUniversity } = req.body;
     try {
       // See if user exists. Send an error if it does
       let user = await User.findOne({ email });
@@ -58,6 +60,7 @@ router.post(
         email,
         password,
         avatar,
+        studentUniversity,
       });
       //Encrypt the password using Bcrypt.
       const salt = await bcrypt.genSalt(10);
@@ -130,36 +133,36 @@ router.get("/confirm/:token", async (req, res) => {
   }
 });
 
-router.put("/follow/:id", auth, (req, res) => {
-  User.findByIdAndUpdate(
-    req.params.id,
-    {
-      $push: { followers: req.user },
-    },
-    {
-      new: false,
-    },
-    (err, result) => {
-      if (err) {
-        return res.status(422).json({ error: err });
-      }
-      User.findByIdAndUpdate(
-        req.user,
-        {
-          $push: { following: req.params.id },
-        },
-        { new: false }
-      )
-        .select("-password")
-        .then((result) => {
-          res.json(result);
-        })
-        .catch((err) => {
-          return res.status(422).json({ error: err });
-        });
-    }
-  );
-});
+// router.put("/follow/:id", auth, (req, res) => {
+//   User.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       $push: { followers: req.user },
+//     },
+//     {
+//       new: false,
+//     },
+//     (err, result) => {
+//       if (err) {
+//         return res.status(422).json({ error: err });
+//       }
+//       User.findByIdAndUpdate(
+//         req.user,
+//         {
+//           $push: { following: req.params.id },
+//         },
+//         { new: false }
+//       )
+//         .select("-password")
+//         .then((result) => {
+//           res.json(result);
+//         })
+//         .catch((err) => {
+//           return res.status(422).json({ error: err });
+//         });
+//     }
+//   );
+// });
 
 // router.put("/follow/:id", auth, async (req, res) => {
 //   try {
@@ -174,36 +177,36 @@ router.put("/follow/:id", auth, (req, res) => {
 //   }
 // });
 
-router.put("/unfollow/:id", auth, (req, res) => {
-  User.findByIdAndUpdate(
-    req.params.id,
-    {
-      $pull: { followers: req.user},
-    },
-    {
-      new: true,
-    },
-    (err, result) => {
-      if (err) {
-        return res.status(422).json({ error: err });
-      }
-      User.findByIdAndUpdate(
-        req.user,
-        {
-          $pull: { following: req.params.id },
-        },
-        { new: true }
-      )
-        .select("-password")
-        .then((result) => {
-          res.json(result);
-        })
-        .catch((err) => {
-          return res.status(422).json({ error: err });
-        });
-    }
-  );
-});
+// router.put("/unfollow/:id", auth, (req, res) => {
+//   User.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       $pull: { followers: req.user},
+//     },
+//     {
+//       new: true,
+//     },
+//     (err, result) => {
+//       if (err) {
+//         return res.status(422).json({ error: err });
+//       }
+//       User.findByIdAndUpdate(
+//         req.user,
+//         {
+//           $pull: { following: req.params.id },
+//         },
+//         { new: true }
+//       )
+//         .select("-password")
+//         .then((result) => {
+//           res.json(result);
+//         })
+//         .catch((err) => {
+//           return res.status(422).json({ error: err });
+//         });
+//     }
+//   );
+// });
 
 module.exports = router;
 

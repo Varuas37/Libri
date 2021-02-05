@@ -25,16 +25,20 @@ const EventsImg = require("../../../assets/HomePage/Events.png");
 const BookIcon = require("../../../assets/HomePage/BookIcon.png");
 // const UserImg = require("../../../assets/HomePage/UserImg.png");
 
+
 const Home = ({
   getCurrentProfile,
-
+getUniversity,
   auth: { user },
   profile: { loading, profile },
 }) => {
+
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
+    
+  
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -76,6 +80,11 @@ const Home = ({
             img={EventsImg}
             link={"/events"}
           ></SidebarElements>
+             <SidebarElements
+            name="Important"
+            img={BookIcon}
+            link={"/important"}
+          ></SidebarElements>
         </Sidebar>
 
         <ContentWrapper>
@@ -95,6 +104,7 @@ const Home = ({
 };
 Home.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };

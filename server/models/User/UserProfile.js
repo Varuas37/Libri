@@ -5,7 +5,6 @@ const ProfileSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-
   experience: [
     {
       company: { type: String },
